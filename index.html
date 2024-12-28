@@ -11,6 +11,7 @@
             font-family: 'Georgia', serif;
             background: linear-gradient(to bottom right, #fffaf3, #ffe4e1);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -25,6 +26,7 @@
             text-align: center;
             padding: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
         h1 {
             font-family: 'Dancing Script', cursive;
@@ -57,29 +59,29 @@
         .button {
             background: linear-gradient(90deg, #ffa9a1, #ff857f);
             color: #fff;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border: none;
             border-radius: 30px;
-            font-size: 1em;
+            font-size: 1.2em;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 133, 127, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 133, 127, 0.4);
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 133, 127, 0.4);
+            box-shadow: 0 10px 20px rgba(255, 133, 127, 0.5);
         }
         .album {
-            position: relative;
+            display: none;
             margin-top: 20px;
-            display: flex;
+            width: 90%;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
         .album img {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 10px;
             object-fit: cover;
             cursor: pointer;
@@ -117,26 +119,15 @@
                 text-shadow: 0 5px 10px rgba(176, 117, 108, 0.6), 0 0 15px rgba(255, 133, 127, 0.7);
             }
         }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.4em;
-            }
-            .text-area {
-                font-size: 0.9em;
-                padding: 10px;
-            }
-            .button {
-                font-size: 0.9em;
-                padding: 8px 20px;
-            }
-            .album img {
-                width: 60px;
-                height: 60px;
-            }
-        }
     </style>
 </head>
 <body>
+    <!-- Reproductor de audio -->
+    <audio autoplay loop>
+        <source src="https://example.com/cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
     <div class="card">
         <h1>Un Día para Recordar</h1>
         <!-- Imagen principal -->
@@ -152,7 +143,6 @@
     </div>
     <div class="album" id="album"></div>
 
-    <!-- Modal for viewing images -->
     <div id="modal" class="modal">
         <img id="modal-img" src="" alt="Zoomed Image">
     </div>
@@ -173,20 +163,22 @@
         const album = document.getElementById('album');
         const modal = document.getElementById('modal');
         const modalImg = document.getElementById('modal-img');
+        const showImagesButton = document.getElementById('show-images');
 
-        document.getElementById('show-images').addEventListener('click', () => {
+        showImagesButton.addEventListener('click', () => {
+            album.style.display = 'flex';
             album.innerHTML = '';
             images.forEach((src, index) => {
                 const img = document.createElement('img');
                 img.src = src;
                 img.alt = `Recuerdo ${index + 1}`;
-                img.style.transform = `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px) rotate(${Math.random() * 20 - 10}deg)`;
                 img.addEventListener('click', () => {
                     modalImg.src = src;
                     modal.style.display = 'flex';
                 });
                 album.appendChild(img);
             });
+            showImagesButton.style.display = 'none'; // Ocultar el botón después de mostrar el álbum
         });
 
         modal.addEventListener('click', () => {
